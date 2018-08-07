@@ -1,0 +1,29 @@
+#+TITLE: Clock System
+* Clock Distribution
+  #+BEGIN_SRC dot :file clock_distribution.png :cmdline -Kdot -Tpng
+  digraph clock_distribution {
+   "SYSCTRL" -> "GCLK";
+   "GCLK" -> "GCLK_MAIN" -> "PM";
+   "GCLK" -> "Peripheral 0...n";
+  }
+  #+END_SRC
+
+  #+RESULTS:
+  [[file:clock_distribution.png]]
+** Clock sources, controlled by SYSCTRL
+** GCLK, control clock distribution system
+   GCLK 0 generates GCLK_MAIN.
+** PM generates and controls the synchronous clocks
+* Synchronous and Asyncronous Clock 
+  * SYNCBUSY 
+  * Sync Clocks :: CPU and bus clocks
+  * async clocks :: GCLK
+* Register sync
+** common sync
+  * common sync register sync :: GCLK, WDT, RTC, EIC, TC, ADC, AC, DAC
+       The common sysnhronizer is used for all registers in one peripheral.Therefore,status register(STATUS) of each peripheral can be sync at a time.
+   * Write-sync
+     
+** distributed sync
+  * distributed sync register sync :: SERCOM USART/SPI/I2C, I2S, TCC, USB
+       Regiseters that need sync have their individual SYNCBUSY bits.
